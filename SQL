@@ -1,0 +1,74 @@
+# Revising the Select Query I  
+  
+Query all columns for all American cities in CITY with populations larger than 100000. The CountryCode for America is USA.  
+  
+***Input Format***  
+  
+The CITY table is described as follows:  
+  
+![img](https://s3.amazonaws.com/hr-challenge-images/8137/1449729804-f21d187d0f-CITY.jpg)  
+  
+	SELECT * FROM city WHERE population > 100000 AND countrycode = 'USA';  
+ 
+ # The Blunder
+
+Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. 
+She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
+
+Write a query calculating the amount of error (i.e.:  average monthly salaries), and round it up to the next integer.
+
+***Input Format***  
+
+The EMPLOYEES table is described as follows:
+
+![img](https://s3.amazonaws.com/hr-challenge-images/12893/1443817108-adc2235c81-1.png)  
+
+Note: Salary is per month.
+
+Constraints
+Note: Salary is measured in dollars per month and its value is < 10⁵.
+
+***Sample Input***
+![img](https://s3.amazonaws.com/hr-challenge-images/12893/1443817161-299cc6eb7f-2.png)  
+
+
+***Sample Output***
+2061
+ 
+***Explanation***
+
+The table below shows the salaries without zeros as they were entered by Samantha:
+![img](https://s3.amazonaws.com/hr-challenge-images/12893/1443817229-eb00d44a3b-3.png)
+
+Samantha computes an average salary of. The actual average salary is 2159.
+
+The resulting error between the two calculations is 2159 - 98 = 2061. Since it is equal to the integer , it does not get rounded up.
+
+SELECT CEIL(AVG(salary) - AVG(REPLACE(salary, '0', ''))) 
+FROM employees
+
+**What is CEIL() in SQL?**
+The CEIL() function returns the nearest smallest integer that is greater than or equal to a number. Some database servers use the CEILING() function, which is equivalent to the CEIL() function.
+
+**ROUND** https://sqlstudies.com/2016/10/05/floor-round-and-ceiling/
+This is the most complicated of the three. It does a standard rounding. If value is .5 or over then you get back 1. If it’s less than .5 you get back 0. On top of that you get to pass the place you want to round to. So for example 0 rounds to the nearest ones place, -1 rounds to the tens place, 2 rounds to the hundredths.
+SELECT
+    ROUND(13.567,0)     -- 14.000  -- Ones place
+    ROUND(13.567,-1),   -- 10.000  -- Tens place
+    ROUND(13.567,2)     -- 13.570  -- Hundredths place
+
+**CEILING**
+Ceiling, on the other hand, is the opposite. It returns the same data type as floor (0 scale where possible) but returns the integer equal to or higher than the value passed in.
+
+SELECT
+    CEILING(13.5),  -- 14
+    CEILING(13.8),  -- 14
+    CEILING(13.2)   -- 14
+
+**FLOOR**
+Floor returns the integer value less than or equal to the value passed in.  Very similar to ROUND(x,0,1). But while ROUND returns the same scale (where possible) as the data type passed in, the data type FLOOR returns has a 0 scale (where possible).
+
+SELECT
+    FLOOR(13.5),    -- 13
+    FLOOR(13.8),    -- 13
+    FLOOR(13.2)     -- 13
